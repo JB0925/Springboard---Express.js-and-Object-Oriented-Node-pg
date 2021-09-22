@@ -12,7 +12,12 @@ class Customer {
     this.lastName = lastName;
     this.phone = phone;
     this.notes = notes;
+    this.fullName = this.getFullName();
   }
+  /** concatenate first and last names. */
+  getFullName() {
+    return `${this.firstName} ${this.lastName}`
+  };
 
   /** find all customers. */
 
