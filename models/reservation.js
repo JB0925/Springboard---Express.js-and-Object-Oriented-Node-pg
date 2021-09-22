@@ -13,7 +13,31 @@ class Reservation {
     this.customerId = customerId;
     this.numGuests = numGuests;
     this.startAt = startAt;
-    this.notes = notes;
+    this.notes = this.formatNotes(notes);
+  }
+
+  set startAt(val) {
+    if (val instanceof Date && !isNaN(val)) this._startAt = val
+    else throw new Error("You need to enter a valid date to make a reservation.");
+  };
+
+  get startAt() {
+    return this._startAt;
+  }
+
+  set numGuests(val) {
+    if (val < 1) throw new Error("You must have at least one person attending.");
+    this._numGuests = val;
+  }
+
+  get numGuests() {
+    return this._numGuests;
+  }
+
+  formatNotes(notes) {
+    const badValues = ['false', '0', 'undefined', 'null'];
+    if (badValues.includes(notes)) return ' ';
+    return notes;
   }
 
   /** formatter for startAt */
