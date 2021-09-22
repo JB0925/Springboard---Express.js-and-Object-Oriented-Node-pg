@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %} Most Reservations {% endblock %}
+
+{% block content %}
+<div>
+    {% for customer in topTen %}
+    <p>{{customer.name}} {{customer.count}}</p>
+    {% endfor %}
+</div>
+{% endblock %}

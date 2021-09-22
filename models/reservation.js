@@ -58,6 +58,18 @@ class Reservation {
       );
     };
   };
+  static async getMostReservations() {
+    const results = await db.query(
+      `SELECT CONCAT(first_name, ' ', last_name) AS name, COUNT(*)
+       FROM customers
+       JOIN reservations
+       ON customers.id = reservations.customer_id
+       GROUP BY last_name, first_name
+       ORDER BY COUNT(*) DESC
+       LIMIT 10`
+    );
+    return results.rows;
+  }
 };
 
 

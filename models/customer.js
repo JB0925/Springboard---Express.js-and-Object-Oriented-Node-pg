@@ -82,7 +82,22 @@ class Customer {
         [this.firstName, this.lastName, this.phone, this.notes, this.id]
       );
     }
-  }
-}
+  };
+
+  /** Find a customer by name */
+  static async find(fullName) {
+    fullName = fullName.split(" ");
+    const firstName = fullName[0];
+    const lastName = fullName[1];
+    const customer = await db.query(
+      `SELECT id
+       FROM customers
+       WHERE first_name=$1
+       AND last_name=$2`,
+       [firstName, lastName]
+    );
+    return customer;
+  };
+};
 
 module.exports = Customer;

@@ -7,6 +7,16 @@ const Reservation = require("./models/reservation");
 
 const router = new express.Router();
 
+/** Get the ten customers with the most reservations. */
+router.get("/most_reservations", async(req, res, next) => {
+  try {
+    const topTen = await Reservation.getMostReservations();
+    return res.render("most_reservations.html", { topTen });
+  } catch (err) {
+    return next(err);
+  };
+});
+
 /** Homepage: show list of customers. */
 
 router.get("/", async function(req, res, next) {
@@ -109,6 +119,19 @@ router.post("/:id/add-reservation/", async function(req, res, next) {
   } catch (err) {
     return next(err);
   }
+});
+
+/** Search for a customer from the NavBar */
+router.post("/search", async(req, res, next) => {
+  const fullName = req.body.fullName;
+  try {
+    const foundCustomer = await Customer.find(fullName);
+    const customerId = foundCustomer.rows[0].id;
+    return res.redirect(`/${customerId}/`);
+  } catch (error) {
+    error.message = `Sorry, ${fullName} was not found!`;
+    return next(error);
+  };
 });
 
 module.exports = router;
