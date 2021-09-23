@@ -14,6 +14,7 @@ class Reservation {
     this.numGuests = numGuests;
     this.startAt = startAt;
     this.notes = this.formatNotes(notes);
+    this.timeCreated = null;
   }
 
   set startAt(val) {

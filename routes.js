@@ -1,6 +1,7 @@
 /** Routes for Lunchly */
 
 const express = require("express");
+const moment = require("moment");
 
 const Customer = require("./models/customer");
 const Reservation = require("./models/reservation");
@@ -63,6 +64,9 @@ router.get("/:id/", async function(req, res, next) {
     const customer = await Customer.get(req.params.id);
 
     const reservations = await customer.getReservations();
+    for (let reservation of reservations) {
+      reservation.timeCreated = moment(reservation.startAt).fromNow();
+    };
 
     return res.render("customer_detail.html", { customer, reservations });
   } catch (err) {
